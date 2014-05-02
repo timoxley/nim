@@ -4,13 +4,22 @@ Convenience utility to print function implementations and list
 properties available on objects & prototypes.
 
 ```bash
-> nim
+$ nim path.join
+function () {
+    var paths = Array.prototype.slice.call(arguments, 0);
+    return exports.normalize(paths.filter(function(p, index) {
+      if (typeof p !== 'string') {
+        throw new TypeError('Arguments to path.join must be strings');
+      }
+      return p;
+    }).join('/'));
+  }
 ```
 
 ## Installation
 
 ```bash
-> npm install -g nim
+$ npm install -g nim
 ```
 
 ## Usage
@@ -18,7 +27,7 @@ properties available on objects & prototypes.
 ### Inspect global variables
 
 ```bash
-> nim process
+$ nim process
 { title: 'node',
   version: 'v0.10.24',
   moduleLoadList:
@@ -27,12 +36,12 @@ properties available on objects & prototypes.
     ...
     etc
 
->
+$
 ```
 ### Inspect properties
 
 ```bash
-> nim process.versions
+$ nim process.versions
 { http_parser: '1.0',
   node: '0.10.24',
   v8: '3.14.5.9',
@@ -41,13 +50,13 @@ properties available on objects & prototypes.
   zlib: '1.2.3',
   modules: '11',
   openssl: '1.0.1e' }
->
+$
 ```
 
 ### Inspect core modules
 
 ```bash
-> nim os
+$ nim os
 { endianness: [Function],
   hostname: [Function],
   loadavg: [Function],
@@ -65,7 +74,7 @@ properties available on objects & prototypes.
   getNetworkInterfaces: [Function: deprecated],
   EOL: '\n' }
 
->
+$
 ```
 
 ### Inspect local packages
@@ -73,7 +82,7 @@ properties available on objects & prototypes.
 Express's default export is the `createApplication` function.
 
 ```bash
-> nim express
+$ nim express
 function createApplication() {
   var app = function(req, res, next) {
     app.handle(req, res, next);
@@ -88,7 +97,7 @@ function createApplication() {
   return app;
 }
 
->
+$
 ```
 
 ### List available properties
@@ -98,12 +107,12 @@ the object you want to inspect. This lists all the properties of the
 current object and each object in its prototype chain.
 
 ```bash
-> nim stream
+$ nim stream
 function Stream() {
   EE.call(this);
 }
 
-> nim stream.
+$ nim stream.
 [ [ 'super_',
     'Readable',
     'Writable',
@@ -114,7 +123,7 @@ function Stream() {
   [] ]
 }
 
->
+$
 ```
 
 ### List prototype properties
@@ -123,7 +132,7 @@ The default export for `stream` is a constructor.
 List the properties on `stream.prototype` with `stream .`:
 
 ```bash
-> nim stream .
+$ nim stream .
 [ [ 'pipe' ],
   [ 'setMaxListeners',
     'emit',
@@ -134,7 +143,7 @@ List the properties on `stream.prototype` with `stream .`:
     'removeAllListeners',
     'listeners' ] ]
 
-> nim stream.prototype. # equivalent to the above
+$ nim stream.prototype. # equivalent to the above
 [ [ 'pipe' ],
   [ 'setMaxListeners',
     'emit',
@@ -145,7 +154,7 @@ List the properties on `stream.prototype` with `stream .`:
     'removeAllListeners',
     'listeners' ] ]
 
->
+$
 ```
 
 ## TODO
