@@ -1,7 +1,7 @@
 {
   "name": "nim",
-  "version": "0.0.0",
-  "description": "Convenience utility to print function implementations, properties and globals.",
+  "version": "1.0.0",
+  "description": "Convenience utility to print function implementations, properties and globals from the command-line.",
   "main": "index.js",
   "bin": "bin/nim.js",
   "scripts": {
