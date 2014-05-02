@@ -1,0 +1,16 @@
+{
+  "name": "nim",
+  "version": "0.0.0",
+  "description": "Convenience utility to print function implementations, properties and globals.",
+  "main": "index.js",
+  "bin": "bin/nim.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tim Oxley",
+  "license": "MIT",
+  "dependencies": {
+    "ansi-highlight": "^1.0.2",
+    "debug": "^0.8.1"
+  }
+}
