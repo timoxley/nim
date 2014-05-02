@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 // warning: hacky code below
+"use strict"
 
 var args = process.argv.slice(2)
 var vm = require('vm')
@@ -9,11 +10,12 @@ var debug = require('debug')('nimp')
 var highlight = require('ansi-highlight')
 var inspect = require('util').inspect
 global.require = require
-
-code = args.join(' ')
+var code = args.join(' ')
 if (!code) {
   code = 'global.' // default = list global properties
 }
+
+
 
 code = code.trim()
 code = code.replace(/ /gmi, '.prototype.') // Function protoMethod syntax.
@@ -28,6 +30,7 @@ code = parts.join('.')
 
 // array of arrays of keys. walks up proto chain
 function protokeys(obj) {
+  if (obj === global) loadBuiltIns()
   var keys = [];
   while (obj && obj !== Object.prototype) {
     keys.push(Object.keys(obj));
@@ -62,4 +65,11 @@ function getString(item) {
   ?  item.toString()
   : inspect(item, {depth: 30}) // 30 depth should be enough for anyone!
   return str
+}
+
+function loadBuiltIns() {
+  var builtIns = require('repl')._builtinLibs
+  builtIns.forEach(function(builtIn) {
+    global[builtIn] = require(builtIn)
+  })
 }

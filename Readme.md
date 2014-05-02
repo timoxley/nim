@@ -3,6 +3,10 @@
 Convenience utility to print function implementations and list
 properties available on objects & prototypes.
 
+```bash
+> nim
+```
+
 ## Installation
 
 ```bash
@@ -143,6 +147,14 @@ List the properties on `stream.prototype` with `stream .`:
 
 >
 ```
+
+## TODO
+
+* Better formatting for property listings. Make more like completion in repl.
+* Add tests.
+* More intuitive syntax for telling nim to list properties?
+* Opt in (or out) of printing a flattened property list (i.e. do not display which level of the prototype hierarchy a property is implemented on)
+* Maybe support running against a custom scope from inside a paused execution context saved to disk?
 
 ## License
 
