@@ -15,6 +15,8 @@ function () {
  }
 ```
 
+![nim](https://cloud.githubusercontent.com/assets/43438/2869888/1298f88c-d29a-11e3-8e15-8e1b692c121f.gif)
+
 ## Installation
 
 ```bash
