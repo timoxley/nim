@@ -1,9 +1,9 @@
 # nim
 
-Commandline convenience tool for inspecting objects, function implementations and listing properties.
+Commandline convenience tool for inspecting objects, function implementations and listing properties, *with syntax highlighting*!
 
 ```bash
-$ nim path.join
+$ nim path.join # print the implementation of path.join
 function () {
   var paths = Array.prototype.slice.call(arguments, 0);
   return exports.normalize(paths.filter(function(p, index) {
