@@ -1,6 +1,6 @@
 # nim
 
-Commandline convenience tool for inspecting objects, function implementations and listing properties, *with syntax highlighting*!
+Commandline convenience tool for inspecting objects, function implementations and listing properties, *with syntax highlighting*.
 
 ```js
 $ nim path.join
@@ -204,39 +204,13 @@ $ nim crypto | more -r
 
 ## Why
 
-I often boot up the node repl to simply print out lists of properties or get insight on how things work by logging functions implementations.
-
-This usually looks like:
-
-```js
-$ node
-> console.log(util.inherits.toString())
-function (ctor, superCtor) {
-  ctor.super_ = superCtor;
-  ctor.prototype = Object.create(superCtor.prototype, {
-    constructor: {
-      value: ctor,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-}
-> os.
-os.__defineGetter__      os.__defineSetter__      os.__lookupGetter__      os.__lookupSetter__      os.constructor           os.hasOwnProperty        os.isPrototypeOf
-os.propertyIsEnumerable  os.toLocaleString        os.toString              os.valueOf
-
-os.EOL                   os.arch                  os.cpus                  os.endianness            os.freemem               os.getNetworkInterfaces  os.hostname
-os.loadavg               os.networkInterfaces     os.platform              os.release               os.tmpDir                os.tmpdir                os.totalmem
-os.type                  os.uptime
-```
-
-`nim` is a simple wrapper around these commands.
+If you're like me, you regularly boot up node's repl just to explore objects or gain insight on how things work by logging function implementations. `nim` is a more convenient way of doing this.
 
 ## TODO
 
 * Better formatting for property listings. **Make more like obj.<TAB> completion in repl.**
 * Add tests.
+* Auto-completion on `.`.
 * More intuitive syntax for telling nim to list properties?
 * Opt in (or out) of printing a flattened property list (i.e. do not display which level of the prototype hierarchy a property is implemented on)
 * Maybe support running against a custom scope from inside a paused execution context saved to disk?
