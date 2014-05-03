@@ -74,10 +74,10 @@ $ nim os
 
 ### Inspect local packages
 
-Express's default export is the `createApplication` function.
+`nim` will try load the appropriate package using regular require resolution.
 
 ```bash
-$ nim express
+$ nim express # Express's default export is the `createApplication` function.
 function createApplication() {
   var app = function(req, res, next) {
     app.handle(req, res, next);
@@ -90,6 +90,33 @@ function createApplication() {
   app.response = { __proto__: res, app: app };
   app.init();
   return app;
+}
+$ nim express.
+[ [ 'mime',
+    'basicAuth',
+    'bodyParser',
+    ...
+    'vhost',
+    'createServer',
+    'application',
+    'request',
+    'response',
+    'Route',
+    'Router' ],
+  [] ]
+$ nim express.vhost
+function vhost(hostname, server){
+  if (!hostname) throw new Error('vhost hostname required');
+  if (!server) throw new Error('vhost server required');
+  var regexp = new RegExp('^' + hostname.replace(/[^*\w]/g, '\\$&').replace(/[*]/g, '(?:.*?)')  + '$', 'i');
+  if (server.onvhost) server.onvhost(hostname);
+  return function vhost(req, res, next){
+    if (!req.headers.host) return next();
+    var host = req.headers.host.split(':')[0];
+    if (!regexp.test(host)) return next();
+    if ('function' == typeof server) return server(req, res, next);
+    server.emit('request', req, res);
+  };
 }
 ```
 
