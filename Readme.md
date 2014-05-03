@@ -122,7 +122,7 @@ function vhost(hostname, server){
 }
 ```
 
-### Inspect result of simple function calls
+### Inspect simple function calls
 
 Remember to escape parens or wrap the expression in quotes.
 
@@ -136,6 +136,8 @@ $ nim "crypto.getCiphers()"
   'seed-ecb',
   'seed-ofb' ]
 ```
+
+This is similar to the result you'd get from `node -p "require('crypto').getCiphers()"` with added syntax highlighting.
 
 ### List available properties
 
