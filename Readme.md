@@ -122,6 +122,21 @@ function vhost(hostname, server){
 }
 ```
 
+### Inspect result of simple function calls
+
+Remember to escape parens or wrap the expression in quotes.
+
+```js
+$ nim "crypto.getCiphers()"
+[ 'CAST-cbc',
+  'aes-128-cbc',
+  'aes-128-cbc-hmac-sha1',
+  ...
+  'seed-cfb',
+  'seed-ecb',
+  'seed-ofb' ]
+```
+
 ### List available properties
 
 You can list properties of an object by appending a `.` to the name of
@@ -168,6 +183,22 @@ $ nim stream.prototype.
     'listeners' ] ]
 ```
 
+### Pagination
+
+Sometimes `nim`'s output can be many screenfuls. Feel free to pipe `nim` through your pager of choice:
+
+e.g.
+
+```js
+$ nim crypto | less
+```
+
+If your pager is having trouble displaying colorcodes, pass it the `-r` flag:
+
+```js
+$ nim crypto | less -r
+$ nim crypto | more -r
+```
 
 ## Why
 
