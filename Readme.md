@@ -1,19 +1,18 @@
 # nim
 
-Convenience utility to print function implementations and list
-properties available on objects & prototypes.
+Commandline convenience tool for inspecting objects, function implementations and listing properties.
 
 ```bash
 $ nim path.join
 function () {
-    var paths = Array.prototype.slice.call(arguments, 0);
-    return exports.normalize(paths.filter(function(p, index) {
-      if (typeof p !== 'string') {
-        throw new TypeError('Arguments to path.join must be strings');
-      }
-      return p;
-    }).join('/'));
-  }
+  var paths = Array.prototype.slice.call(arguments, 0);
+  return exports.normalize(paths.filter(function(p, index) {
+    if (typeof p !== 'string') {
+      throw new TypeError('Arguments to path.join must be strings');
+    }
+    return p;
+  }).join('/'));
+ }
 ```
 
 ## Installation
@@ -34,9 +33,8 @@ $ nim process
    [ 'Binding evals',
      'Binding natives',
     ...
-    etc
-
-$
+   ]
+  etc
 ```
 ### Inspect properties
 
@@ -50,7 +48,6 @@ $ nim process.versions
   zlib: '1.2.3',
   modules: '11',
   openssl: '1.0.1e' }
-$
 ```
 
 ### Inspect core modules
@@ -73,8 +70,6 @@ $ nim os
   tmpDir: [Function],
   getNetworkInterfaces: [Function: deprecated],
   EOL: '\n' }
-
-$
 ```
 
 ### Inspect local packages
@@ -96,8 +91,6 @@ function createApplication() {
   app.init();
   return app;
 }
-
-$
 ```
 
 ### List available properties
@@ -122,8 +115,6 @@ $ nim stream.
     'Stream' ],
   [] ]
 }
-
-$
 ```
 
 ### List prototype properties
@@ -153,13 +144,43 @@ $ nim stream.prototype. # equivalent to the above
     'removeListener',
     'removeAllListeners',
     'listeners' ] ]
-
-$
 ```
+
+
+## Why
+
+I often boot up the node repl to simply print out lists of properties or get insight on how things work by logging functions implementations.
+
+This usually looks like:
+
+```bash
+$ node
+> console.log(util.inherits.toString())
+function (ctor, superCtor) {
+  ctor.super_ = superCtor;
+  ctor.prototype = Object.create(superCtor.prototype, {
+    constructor: {
+      value: ctor,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+}
+> os.
+os.__defineGetter__      os.__defineSetter__      os.__lookupGetter__      os.__lookupSetter__      os.constructor           os.hasOwnProperty        os.isPrototypeOf
+os.propertyIsEnumerable  os.toLocaleString        os.toString              os.valueOf
+
+os.EOL                   os.arch                  os.cpus                  os.endianness            os.freemem               os.getNetworkInterfaces  os.hostname
+os.loadavg               os.networkInterfaces     os.platform              os.release               os.tmpDir                os.tmpdir                os.totalmem
+os.type                  os.uptime
+```
+
+`nim` is a simple wrapper around these commands.
 
 ## TODO
 
-* Better formatting for property listings. Make more like completion in repl.
+* Better formatting for property listings. **Make more like obj.<TAB> completion in repl.**
 * Add tests.
 * More intuitive syntax for telling nim to list properties?
 * Opt in (or out) of printing a flattened property list (i.e. do not display which level of the prototype hierarchy a property is implemented on)
