@@ -2,8 +2,8 @@
 
 Commandline convenience tool for inspecting objects, function implementations and listing properties, *with syntax highlighting*!
 
-```bash
-$ nim path.join # print the implementation of path.join
+```js
+$ nim path.join
 function () {
   var paths = Array.prototype.slice.call(arguments, 0);
   return exports.normalize(paths.filter(function(p, index) {
@@ -25,20 +25,16 @@ $ npm install -g nim
 
 ### Inspect global variables
 
-```bash
+```js
 $ nim process
 { title: 'node',
   version: 'v0.10.24',
-  moduleLoadList:
-   [ 'Binding evals',
-     'Binding natives',
-    ...
-   ]
-  etc
+  argv: [ 'node', '/usr/local/bin/nim', 'process' ],
+  ... }
 ```
 ### Inspect properties
 
-```bash
+```js
 $ nim process.versions
 { http_parser: '1.0',
   node: '0.10.24',
@@ -52,7 +48,7 @@ $ nim process.versions
 
 ### Inspect core modules
 
-```bash
+```js
 $ nim os
 { endianness: [Function],
   hostname: [Function],
@@ -74,10 +70,10 @@ $ nim os
 
 ### Inspect local packages
 
-`nim` will try load the appropriate package using regular require resolution.
+`nim` will try load the appropriate package using regular local package resolution.
 
-```bash
-$ nim express # Express's default export is the `createApplication` function.
+```js
+$ nim express
 function createApplication() {
   var app = function(req, res, next) {
     app.handle(req, res, next);
@@ -91,6 +87,8 @@ function createApplication() {
   app.init();
   return app;
 }
+```
+```js
 $ nim express.
 [ [ 'mime',
     'basicAuth',
@@ -104,6 +102,8 @@ $ nim express.
     'Route',
     'Router' ],
   [] ]
+```
+```js
 $ nim express.vhost
 function vhost(hostname, server){
   if (!hostname) throw new Error('vhost hostname required');
@@ -126,12 +126,7 @@ You can list properties of an object by appending a `.` to the name of
 the object you want to inspect. This lists all the properties of the
 current object and each object in its prototype chain.
 
-```bash
-$ nim stream
-function Stream() {
-  EE.call(this);
-}
-
+```js
 $ nim stream.
 [ [ 'super_',
     'Readable',
@@ -146,22 +141,10 @@ $ nim stream.
 
 ### List prototype properties
 
-The default export for `stream` is a constructor.
-List the properties on `stream.prototype` with `stream .`:
+For example, listing the properties on `stream.prototype`:
 
-```bash
+```js
 $ nim stream .
-[ [ 'pipe' ],
-  [ 'setMaxListeners',
-    'emit',
-    'addListener',
-    'on',
-    'once',
-    'removeListener',
-    'removeAllListeners',
-    'listeners' ] ]
-
-$ nim stream.prototype. # equivalent to the above
 [ [ 'pipe' ],
   [ 'setMaxListeners',
     'emit',
@@ -173,6 +156,16 @@ $ nim stream.prototype. # equivalent to the above
     'listeners' ] ]
 ```
 
+The above is a convenience syntax and exactly equivalent to inspecting the prototype with `.` directly:
+
+```js
+$ nim stream.prototype.
+[ [ 'pipe' ],
+  [ 'setMaxListeners',
+    ...
+    'listeners' ] ]
+```
+
 
 ## Why
 
@@ -180,7 +173,7 @@ I often boot up the node repl to simply print out lists of properties or get ins
 
 This usually looks like:
 
-```bash
+```js
 $ node
 > console.log(util.inherits.toString())
 function (ctor, superCtor) {
