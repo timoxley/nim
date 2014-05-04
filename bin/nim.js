@@ -15,10 +15,9 @@ if (!code) {
   code = 'global.' // default = list global properties
 }
 
-
-
 code = code.trim()
 code = code.replace(/ /gmi, '.prototype.') // Function protoMethod syntax.
+var input = code
 var parts = code.split('.')
 parts[0] = [
   '(function get(part0) {',
@@ -33,8 +32,8 @@ function protokeys(obj) {
   if (obj === global) loadBuiltIns()
   var keys = [];
   while (obj && obj !== Object.prototype) {
-    keys.push(Object.keys(obj));
-    obj = obj.__proto__;
+    keys.push(Object.getOwnPropertyNames(obj));
+    obj = Object.getPrototypeOf(obj);
   }
   return keys;
 }
@@ -43,14 +42,14 @@ try {
   var listKeys = code[code.length - 1] === '.'
   if (listKeys) {
     code = code.replace(/\.+$/m, '') // remove trailing .
+    input = input.replace(/\.+$/m, '')
   }
 
-  code = 'global.$$item = ' + code + ';'
-  vm.runInThisContext(code)
+  vm.runInThisContext('global.$$item = ' + code + ';')
   var item = $$item
   delete global.$$item
 
-  if (listKeys) item = protokeys(item)
+  if (listKeys) return console.info(renderProtoKeys(input, protokeys(item)))
 
   console.info(highlight(getString(item)))
 
@@ -72,4 +71,12 @@ function loadBuiltIns() {
   builtIns.forEach(function(builtIn) {
     global[builtIn] = require(builtIn)
   })
+}
+
+function renderProtoKeys(name, keys) {
+  return '\n' + keys.reduce(function(lines, protoKeys) {
+    return lines.concat(protoKeys.map(function(k) {
+      return name + '.' + highlight(k)
+    }).join('\n'))
+  }, []).join('\n\n')
 }
