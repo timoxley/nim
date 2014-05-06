@@ -92,18 +92,48 @@ function createApplication() {
 ```
 ```js
 $ nim express.
-[ [ 'mime',
-    'basicAuth',
-    'bodyParser',
-    ...
-    'vhost',
-    'createServer',
-    'application',
-    'request',
-    'response',
-    'Route',
-    'Router' ],
-  [] ]
+
+express.length
+express.name
+express.arguments
+express.caller
+express.prototype
+express.application
+express.request
+express.response
+express.Route
+express.Router
+express.query
+express.static
+express.json
+express.urlencoded
+express.bodyParser
+express.compress
+express.cookieSession
+express.session
+express.logger
+express.cookieParser
+express.favicon
+express.responseTime
+express.errorHandler
+express.timeout
+express.methodOverride
+express.vhost
+express.csrf
+express.directory
+express.limit
+express.multipart
+express.staticCache
+
+express.length
+express.name
+express.arguments
+express.caller
+express.constructor
+express.bind
+express.toString
+express.call
+express.apply
 ```
 ```js
 $ nim express.vhost
@@ -147,15 +177,28 @@ current object and each object in its prototype chain.
 
 ```js
 $ nim stream.
-[ [ 'super_',
-    'Readable',
-    'Writable',
-    'Duplex',
-    'Transform',
-    'PassThrough',
-    'Stream' ],
-  [] ]
-}
+stream.length
+stream.name
+stream.arguments
+stream.caller
+stream.prototype
+stream.super_
+stream.Readable
+stream.Writable
+stream.Duplex
+stream.Transform
+stream.PassThrough
+stream.Stream
+
+stream.length
+stream.name
+stream.arguments
+stream.caller
+stream.constructor
+stream.bind
+stream.toString
+stream.call
+stream.apply
 ```
 
 ### List prototype properties

@@ -31,7 +31,7 @@ code = parts.join('.')
 function protokeys(obj) {
   if (obj === global) loadBuiltIns()
   var keys = [];
-  while (obj && obj !== Object.prototype) {
+  while (obj) {
     keys.push(Object.getOwnPropertyNames(obj));
     obj = Object.getPrototypeOf(obj);
   }
@@ -74,7 +74,7 @@ function loadBuiltIns() {
 }
 
 function renderProtoKeys(name, keys) {
-  return '\n' + keys.reduce(function(lines, protoKeys) {
+  return '\n' + keys.reverse().reduce(function(lines, protoKeys) {
     return lines.concat(protoKeys.map(function(k) {
       return name + '.' + highlight(k)
     }).join('\n'))
