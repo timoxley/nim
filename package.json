@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "ansi-highlight": "^1.0.2",
-    "debug": "^0.8.1"
+    "debug": "^0.8.1",
+    "findup": "^0.1.5"
   }
 }

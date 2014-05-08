@@ -6,6 +6,9 @@
 var args = process.argv.slice(2)
 var vm = require('vm')
 var debug = require('debug')('nim')
+
+var findup = require('findup')
+
 var join = require('path').join
 
 var highlight = require('ansi-highlight')
@@ -39,27 +42,30 @@ function protokeys(obj) {
   return keys;
 }
 
-try {
-  var listKeys = code[code.length - 1] === '.'
-  if (listKeys) {
-    code = code.replace(/\.+$/m, '') // remove trailing .
-    input = input.replace(/\.+$/m, '')
+nodeModulesPaths(process.cwd(), function(err, dirs) {
+  try {
+    if (err) throw err
+    var listKeys = code[code.length - 1] === '.'
+    if (listKeys) {
+      code = code.replace(/\.+$/m, '') // remove trailing .
+      input = input.replace(/\.+$/m, '')
+    }
+    module.paths = module.paths.concat(dirs)
+    vm.runInThisContext('global.$$item = ' + code + ';')
+    module.paths.pop()
+    var item = $$item
+    delete global.$$item
+
+    if (listKeys) return console.info(renderProtoKeys(input, protokeys(item)))
+
+    console.info(highlight(getString(item)))
+
+  } catch(err) {
+    console.error(err.message)
+    debug('\n', highlight(code))
+    process.exit(1)
   }
-  module.paths.push(join(process.cwd(), 'node_modules'))
-  vm.runInThisContext('global.$$item = ' + code + ';')
-  module.paths.pop()
-  var item = $$item
-  delete global.$$item
-
-  if (listKeys) return console.info(renderProtoKeys(input, protokeys(item)))
-
-  console.info(highlight(getString(item)))
-
-} catch(err) {
-  console.error(err.message)
-  debug('\n', highlight(code))
-  process.exit(1)
-}
+})
 
 function getString(item) {
   var str = (typeof item === "function")
@@ -81,4 +87,21 @@ function renderProtoKeys(name, keys) {
       return name + '.' + highlight(k)
     }).join('\n'))
   }, []).join('\n\n')
+}
+
+function nodeModulesPaths(cwd, fn) {
+  var results = []
+  var noop = function() {}
+  var finder = new findup.FindUp(cwd, 'package.json')
+  .once('found', function(dir) {
+    results.push(join(dir, 'node_modules'))
+  })
+  .once('end', function() {
+    fn(null, results)
+    fn = noop
+  })
+  .once('error', function(err) {
+    fn(err)
+    fn = noop
+  })
 }
