@@ -5,7 +5,8 @@
 
 var args = process.argv.slice(2)
 var vm = require('vm')
-var debug = require('debug')('nimp')
+var debug = require('debug')('nim')
+var join = require('path').join
 
 var highlight = require('ansi-highlight')
 var inspect = require('util').inspect
@@ -44,8 +45,9 @@ try {
     code = code.replace(/\.+$/m, '') // remove trailing .
     input = input.replace(/\.+$/m, '')
   }
-
+  module.paths.push(join(process.cwd(), 'node_modules'))
   vm.runInThisContext('global.$$item = ' + code + ';')
+  module.paths.pop()
   var item = $$item
   delete global.$$item
 
