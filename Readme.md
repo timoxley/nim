@@ -1,6 +1,6 @@
 # nim
 
-Commandline convenience tool for inspecting objects, function implementations and listing properties, *with syntax highlighting*.
+Node.js command-line tool for inspecting objects, function implementations and listing properties, *with syntax highlighting*.
 
 ```js
 $ nim path.join
@@ -12,7 +12,7 @@ function () {
     }
     return p;
   }).join('/'));
- }
+}
 ```
 
 ![nim](https://cloud.githubusercontent.com/assets/43438/2869888/1298f88c-d29a-11e3-8e15-8e1b692c121f.gif)
@@ -25,34 +25,39 @@ $ npm install -g nim
 
 ## Usage
 
-### Inspect global variables
+### Inspect Global Variables
 
 ```js
 $ nim process
-{ title: 'node',
+{
+  title: 'node',
   version: 'v0.10.24',
   argv: [ 'node', '/usr/local/bin/nim', 'process' ],
-  ... }
+  ...
+}
 ```
-### Inspect properties
+### Inspect Properties
 
 ```js
 $ nim process.versions
-{ http_parser: '1.0',
-  node: '0.10.24',
+{
+  http_parser: '1.0',
+  node: '0.10.29',
   v8: '3.14.5.9',
   ares: '1.9.0-DEV',
-  uv: '0.10.21',
+  uv: '0.10.27',
   zlib: '1.2.3',
   modules: '11',
-  openssl: '1.0.1e' }
+  openssl: '1.0.1h'
+}
 ```
 
-### Inspect core modules
+### Inspect Core Modules
 
 ```js
 $ nim os
-{ endianness: [Function],
+{
+  endianness: [Function],
   hostname: [Function],
   loadavg: [Function],
   uptime: [Function],
@@ -67,10 +72,11 @@ $ nim os
   tmpdir: [Function],
   tmpDir: [Function],
   getNetworkInterfaces: [Function: deprecated],
-  EOL: '\n' }
+  EOL: '\n'
+}
 ```
 
-### Inspect local packages
+### Inspect Local Packages
 
 `nim` will try load the appropriate package using regular local package resolution.
 
@@ -92,6 +98,30 @@ function createApplication() {
 ```
 ```js
 $ nim express.
+
+nim express.
+
+express.constructor
+express.toString
+express.toLocaleString
+express.valueOf
+express.hasOwnProperty
+express.isPrototypeOf
+express.propertyIsEnumerable
+express.__defineGetter__
+express.__lookupGetter__
+express.__defineSetter__
+express.__lookupSetter__
+
+express.length
+express.name
+express.arguments
+express.caller
+express.constructor
+express.bind
+express.toString
+express.call
+express.apply
 
 express.length
 express.name
@@ -124,52 +154,28 @@ express.directory
 express.limit
 express.multipart
 express.staticCache
-
-express.length
-express.name
-express.arguments
-express.caller
-express.constructor
-express.bind
-express.toString
-express.call
-express.apply
-```
-```js
-$ nim express.vhost
-function vhost(hostname, server){
-  if (!hostname) throw new Error('vhost hostname required');
-  if (!server) throw new Error('vhost server required');
-  var regexp = new RegExp('^' + hostname.replace(/[^*\w]/g, '\\$&').replace(/[*]/g, '(?:.*?)')  + '$', 'i');
-  if (server.onvhost) server.onvhost(hostname);
-  return function vhost(req, res, next){
-    if (!req.headers.host) return next();
-    var host = req.headers.host.split(':')[0];
-    if (!regexp.test(host)) return next();
-    if ('function' == typeof server) return server(req, res, next);
-    server.emit('request', req, res);
-  };
-}
 ```
 
-### Inspect simple function calls
+### Inspect Simple Function Calls
 
 Remember to escape parens or wrap the expression in quotes.
 
 ```js
 $ nim "crypto.getCiphers()"
-[ 'CAST-cbc',
+[
+  'CAST-cbc',
   'aes-128-cbc',
   'aes-128-cbc-hmac-sha1',
   ...
   'seed-cfb',
   'seed-ecb',
-  'seed-ofb' ]
+  'seed-ofb'
+]
 ```
 
 This is similar to the result you'd get from `node -p "require('crypto').getCiphers()"` with added syntax highlighting.
 
-### List available properties
+### List Available Properties
 
 You can list properties of an object by appending a `.` to the name of
 the object you want to inspect. This lists all the properties of the
@@ -177,6 +183,29 @@ current object and each object in its prototype chain.
 
 ```js
 $ nim stream.
+
+stream.constructor
+stream.toString
+stream.toLocaleString
+stream.valueOf
+stream.hasOwnProperty
+stream.isPrototypeOf
+stream.propertyIsEnumerable
+stream.__defineGetter__
+stream.__lookupGetter__
+stream.__defineSetter__
+stream.__lookupSetter__
+
+stream.length
+stream.name
+stream.arguments
+stream.caller
+stream.constructor
+stream.bind
+stream.toString
+stream.call
+stream.apply
+
 stream.length
 stream.name
 stream.arguments
@@ -189,16 +218,6 @@ stream.Duplex
 stream.Transform
 stream.PassThrough
 stream.Stream
-
-stream.length
-stream.name
-stream.arguments
-stream.caller
-stream.constructor
-stream.bind
-stream.toString
-stream.call
-stream.apply
 ```
 
 ### List prototype properties
@@ -207,25 +226,61 @@ For example, listing the properties on `stream.prototype`:
 
 ```js
 $ nim stream .
-[ [ 'pipe' ],
-  [ 'setMaxListeners',
-    'emit',
-    'addListener',
-    'on',
-    'once',
-    'removeListener',
-    'removeAllListeners',
-    'listeners' ] ]
+stream.prototype.constructor
+stream.prototype.toString
+stream.prototype.toLocaleString
+stream.prototype.valueOf
+stream.prototype.hasOwnProperty
+stream.prototype.isPrototypeOf
+stream.prototype.propertyIsEnumerable
+stream.prototype.__defineGetter__
+stream.prototype.__lookupGetter__
+stream.prototype.__defineSetter__
+stream.prototype.__lookupSetter__
+
+stream.prototype.constructor
+stream.prototype.setMaxListeners
+stream.prototype.emit
+stream.prototype.addListener
+stream.prototype.on
+stream.prototype.once
+stream.prototype.removeListener
+stream.prototype.removeAllListeners
+stream.prototype.listeners
+
+stream.prototype.constructor
+stream.prototype.pipe
 ```
 
 The above is a convenience syntax and exactly equivalent to inspecting the prototype with `.` directly:
 
 ```js
 $ nim stream.prototype.
-[ [ 'pipe' ],
-  [ 'setMaxListeners',
-    ...
-    'listeners' ] ]
+
+stream.prototype.constructor
+stream.prototype.toString
+stream.prototype.toLocaleString
+stream.prototype.valueOf
+stream.prototype.hasOwnProperty
+stream.prototype.isPrototypeOf
+stream.prototype.propertyIsEnumerable
+stream.prototype.__defineGetter__
+stream.prototype.__lookupGetter__
+stream.prototype.__defineSetter__
+stream.prototype.__lookupSetter__
+
+stream.prototype.constructor
+stream.prototype.setMaxListeners
+stream.prototype.emit
+stream.prototype.addListener
+stream.prototype.on
+stream.prototype.once
+stream.prototype.removeListener
+stream.prototype.removeAllListeners
+stream.prototype.listeners
+
+stream.prototype.constructor
+stream.prototype.pipe
 ```
 
 ### Pagination
@@ -251,7 +306,7 @@ If you're like me, you regularly boot up node's repl just to explore objects or 
 
 ## TODO
 
-* Better formatting for property listings. **Make more like obj.<TAB> completion in repl.**
+* --Better formatting for property listings. **Make more like obj.<TAB> completion in repl.**--
 * Add tests.
 * Auto-completion on `.`.
 * More intuitive syntax for telling nim to list properties?

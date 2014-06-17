@@ -1,17 +1,29 @@
 {
   "name": "nim",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Convenience utility to print function implementations, properties and globals from the command-line.",
   "main": "index.js",
-  "bin": "bin/nim.js",
+  "bin": {
+    "nim": "bin/nim.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node bin/nim.js stream"
   },
   "author": "Tim Oxley",
   "license": "MIT",
   "dependencies": {
     "ansi-highlight": "^1.0.2",
+    "commander": "^2.2.0",
     "debug": "^0.8.1",
     "findup": "^0.1.5"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timoxley/nim.git"
+  },
+  "bugs": {
+    "url": "https://github.com/timoxley/nim/issues"
+  },
+  "homepage": "https://github.com/timoxley/nim"
 }
