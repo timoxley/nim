@@ -14,10 +14,17 @@
   "dependencies": {
     "ansi-highlight": "^1.0.2",
     "commander": "^2.2.0",
-    "debug": "^0.8.1",
+    "debug": "~2.0.0",
     "findup": "^0.1.5"
   },
-  "keywords": ["inspect", "development", "function", "definition", "source", "code" ],
+  "keywords": [
+    "inspect",
+    "development",
+    "function",
+    "definition",
+    "source",
+    "code"
+  ],
   "devDependencies": {},
   "repository": {
     "type": "git",
