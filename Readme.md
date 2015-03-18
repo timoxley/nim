@@ -2,6 +2,12 @@
 
 Node.js command-line tool for inspecting objects, function implementations and listing properties, *with syntax highlighting*.
 
+## Why
+
+If you're like me, you regularly boot up node's REPL just to explore
+objects or gain insight on how things work by logging function
+implementations. `nim` is a slightly more convenient way of doing this.
+
 ```js
 $ nim path.join
 function () {
@@ -24,6 +30,28 @@ $ npm install -g nim
 ```
 
 ## Usage
+
+```
+Usage: nim [options]
+
+  Options:
+
+    -h, --help     output usage information
+    -V, --version  output the version number
+    --color        Coloured output
+    --repl         Start a REPL
+
+  Examples:
+
+  nim                       - List Global Properties
+  nim process               - Inspect Global Properties
+  nim os                    - Inspect Core Modules
+  nim process.versions      - Inspect Properties
+  nim express               - Inspect Local Packages
+  nim "crypto.getCiphers()" - Inspect Simple Function Calls
+  nim stream.               - List Available Properties
+  nim stream .              - List Prototype Properties
+```
 
 ### Inspect Global Variables
 
@@ -220,7 +248,7 @@ stream.PassThrough
 stream.Stream
 ```
 
-### List prototype properties
+### List Prototype Properties
 
 For example, listing the properties on `stream.prototype`:
 
@@ -300,9 +328,37 @@ $ nim crypto | less -r
 $ nim crypto | more -r
 ```
 
-## Why
+### REPL
 
-If you're like me, you regularly boot up node's repl just to explore objects or gain insight on how things work by logging function implementations. `nim` is a more convenient way of doing this.
+Save on keystrokes when issuing multiple `nim` commands!
+
+```
+$ nim --repl
+nim> path
+{
+  resolve: [Function],
+  normalize: [Function],
+  join: [Function],
+  relative: [Function],
+  sep: '/',
+  delimiter: ':',
+  dirname: [Function],
+  basename: [Function],
+  extname: [Function],
+  exists: [Function: deprecated],
+  existsSync: [Function: deprecated],
+  _makeLong: [Function]
+}
+nim> url
+{
+  parse: [Function: urlParse],
+  resolve: [Function: urlResolve],
+  resolveObject: [Function: urlResolveObject],
+  format: [Function: urlFormat],
+  Url: [Function: Url]
+}
+nim>
+```
 
 ## TODO
 

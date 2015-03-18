@@ -9,7 +9,6 @@ var repl = require('repl')
 
 var findup = require('findup')
 
-
 var _inspect = require('util').inspect
 var inspect = function() {
   return _inspect.apply(this, arguments)
@@ -94,8 +93,6 @@ module.exports = function nim(args, options, fn) {
   }
 }
 
-
-
 function getString(item) {
   var str = (typeof item === "function")
   ?  item.toString()
@@ -109,8 +106,6 @@ function loadBuiltIns() {
     global[builtIn] = require(builtIn)
   })
 }
-
-
 
 function nodeModulesPaths(cwd, fn) {
   var results = []
