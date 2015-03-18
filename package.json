@@ -1,6 +1,6 @@
 {
   "name": "nim",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Convenience utility to print function implementations, properties and globals from the command-line.",
   "main": "index.js",
   "bin": {
